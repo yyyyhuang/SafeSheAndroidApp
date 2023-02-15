@@ -95,11 +95,11 @@ public class ApiActivity extends AppCompatActivity {
             return jObject;
         }
 
-        // TODO: do with result
+        // TODO: what to do with result
         @Override
         protected void onPostExecute(JSONObject jObject) {
             super.onPostExecute(jObject);
-            // TextView result_view = (TextView)findViewById(R.id.result_textview);
+            // pass data to recyclerview
 
 
         }
