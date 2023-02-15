@@ -55,8 +55,9 @@ public class ApiActivity extends AppCompatActivity {
         String lan = radioButton.getText().toString();
 
         PingWebServiceTask task = new PingWebServiceTask();
-        String url = webapi + "author_year_start=" + startYear.getText().toString() + "&author_year_end=" + endYear.getText().toString() + "&languages=" + lan;
+        String urlText = webapi + "?author_year_start=" + startYear.getText().toString() + "&author_year_end=" + endYear.getText().toString() + "&languages=" + lan;
         try{
+            String url = NetworkUtil.validInput(urlText);
             task.execute(url);
         } catch (NetworkUtil.MyException e) {
             Toast.makeText(getApplication(),e.toString(),Toast.LENGTH_SHORT).show();
