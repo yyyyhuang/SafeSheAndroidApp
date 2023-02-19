@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class ApiActivity extends AppCompatActivity {
     private EditText endYear;
     private RadioGroup radioGroup;
     private Button find;
+    private ProgressBar progressBar;
     private TextView results;
     private String start, end, lan;
     private String webapi = "https://gutendex.com/books";
@@ -57,6 +59,7 @@ public class ApiActivity extends AppCompatActivity {
         addText();
         addRadioButtons();
         addButton();
+        addProgress();
         addRes();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -73,16 +76,6 @@ public class ApiActivity extends AppCompatActivity {
 
         layout.addView(textLayout);
 
-//        for (int i = 0; i <= 1; i++) {
-//            EditText editText = new EditText(this);
-//            if (i == 0) {
-//                editText.setHint("Enter Start Year");
-//            }else {
-//                editText.setHint("Enter End Year");
-//            }
-//            setTextAttributes(editText);
-//            textLayout.addView(editText);
-//        }
         startYear = new EditText(this);
         startYear.setHint("Enter Start Year");
         setTextAttributes(startYear);
@@ -101,16 +94,7 @@ public class ApiActivity extends AppCompatActivity {
         radioGroup = new RadioGroup(this);
         radioGroup.setOrientation(LinearLayout.VERTICAL);
         layout.addView(radioGroup);
-//        for (int i = 0; i <= 1; i++) {
-//            RadioButton radioButton = new RadioButton(this);
-//            if (i == 0) {
-//                radioButton.setText("English");
-//            } else {
-//                radioButton.setText("French");
-//            }
-//            radioGroup.addView(radioButton);
-////            setButtonAttributes(radioButton);
-//        }
+
         RadioButton eng = new RadioButton(this);
         eng.setText("English");
         radioGroup.addView(eng);
@@ -131,6 +115,15 @@ public class ApiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 callWebserviceButtonHandler(view);
+                //Setting a loading element
+                progressBar.setVisibility(View.VISIBLE);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }, 1000);
             }
         });
 
@@ -144,6 +137,11 @@ public class ApiActivity extends AppCompatActivity {
         addLine();
     }
 
+    private void addProgress() {
+        progressBar = new ProgressBar(this);
+        progressBar.setVisibility(View.GONE);
+        layout.addView(progressBar);
+    }
     private void addRes() {
         results = new TextView(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -182,9 +180,6 @@ public class ApiActivity extends AppCompatActivity {
     // fetch data button handler
     public void callWebserviceButtonHandler(View view){
         // getting language selected
-//        int selectedId = radioGroup.getCheckedRadioButtonId();
-//        radioButton = (RadioButton) findViewById(selectedId);
-//        String lan = radioButton.getText().toString();
         start = startYear.getText().toString();
         end = endYear.getText().toString();
 //        PingWebServiceTask task = new PingWebServiceTask();
