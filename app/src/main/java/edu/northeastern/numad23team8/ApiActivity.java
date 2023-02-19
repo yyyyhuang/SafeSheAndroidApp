@@ -32,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class ApiActivity extends AppCompatActivity {
@@ -126,6 +127,11 @@ public class ApiActivity extends AppCompatActivity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int listSize = booksList.size();
+                booksList.clear();
+//                for (int i = 0; i < listSize - 1; i++) {
+//                    adapter.notifyItemRemoved(i);
+//                }
                 callWebserviceButtonHandler(view);
                 //Setting a loading element
                 progressBar.setVisibility(View.VISIBLE);
@@ -253,18 +259,51 @@ public class ApiActivity extends AppCompatActivity {
                 JSONObject responseJSON = new JSONObject(response);
                 // only need books
                 JSONArray books = responseJSON.getJSONArray("results"); // Note: books is a array of book objects
-                resp[0] = books.getJSONObject(0).getString("title"); // TODO: only displaying first book title for now. MODIFY
+                // TODO: only displaying first book title for now. MODIFY
+
+                resp[0] = books.getJSONObject(0).getString("title");
                 String tmpbook = resp[0];
+//                booksList.clear();
 
 
                 textHandler.post(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
-                        booksList.add(new Books("BookTitle2", "Amy", "1990", "2100","en"));
-                        booksList.add(new Books("BookTitle3", "Amy2", "1910", "2020","fr"));
-                        adapter.notifyItemInserted(0);
-                        adapter.notifyItemInserted(1);
+                        int length = (books.length() > 20) ? 20 : books.length();
+                        for (int i = 0; i < length; i++) {
+                            try {
+                                String title = books.getJSONObject(i).getString("title");
+                                JSONArray author = books.getJSONObject(i).getJSONArray("authors");
+                                String authorName = author.getJSONObject(0).getString("name");
+                                String authorBirthYear = author.getJSONObject(0).getString("birth_year");
+                                String authorDeathYear = author.getJSONObject(0).getString("death_year");
+                                title = title.replace("\n", "").replace("\r", "");
+                                authorName = authorName.replace("\n", "").replace("\r", "");
+//                                JSONArray languages = books.getJSONObject(i).getJSONArray("languages");
+//                                String language = "";
+//                                for (int j = 0; i < languages.length(); j++) {
+//                                    String element = languages.getString(j);
+//                                    language += element;
+//                                    if(j < languages.length() - 1) {
+//                                        language += ", " ;
+//                                    }
+//                                }
+                                booksList.add(new Books(title, authorName, authorBirthYear, authorDeathYear, lan));
+                                adapter.notifyItemInserted(i);
+//                                adapter.notifyItemInserted(i);
+                            }catch (JSONException e) {
+                                Log.e(TAG, "unexpected JSON exception", e);
+                            }
+
+
+                        }
+
+
+//                        booksList.add(new Books("BookTitle2", "Amy", "1990", "2100","en"));
+//                        booksList.add(new Books("BookTitle3", "Amy2", "1910", "2020","fr"));
+//                        adapter.notifyItemInserted(0);
+//                        adapter.notifyItemInserted(1);
 //                        results.setText(tmpbook); // TODO: MODIFY handler
                     }
                 });
