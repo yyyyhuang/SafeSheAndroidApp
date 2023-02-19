@@ -11,23 +11,19 @@ public class Books {
         this.language = language;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public String getAuthor() {
+        return "Author: " + author;
     }
 
-    public void setBirthYear(String birthYear) {
-        this.birthYear = birthYear;
+    public String getAuthorYear() {
+        return "Author Year: " + birthYear + " - " + deathYear;
     }
 
-    public void setDeathYear(String deathYear) {
-        this.deathYear = deathYear;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
+    public String getLanguage() {
+        return "Language: " + language;
     }
 }

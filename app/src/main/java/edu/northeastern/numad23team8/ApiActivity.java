@@ -1,6 +1,8 @@
 package edu.northeastern.numad23team8;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -29,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ApiActivity extends AppCompatActivity {
@@ -46,6 +49,15 @@ public class ApiActivity extends AppCompatActivity {
     private TextView results;
     private String start, end, lan;
     private String webapi = "https://gutendex.com/books";
+
+
+    private RecyclerView recyclerView;
+    private RecyclerView results2;
+    private LinearLayoutManager layoutManager;
+    private BooksAdapter adapter;
+    private ArrayList<Books> booksList = new ArrayList<>();
+
+
 
 
     @Override
@@ -142,14 +154,25 @@ public class ApiActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         layout.addView(progressBar);
     }
+
+    //TODO: add recyclerview to res
     private void addRes() {
-        results = new TextView(this);
+//        results = new TextView(this);
+//        LinearLayout recycleLayout = new LinearLayout(this);
+        results2 = new RecyclerView(this);
+        layoutManager = new LinearLayoutManager(this);
+        results2.setLayoutManager(layoutManager);
+        adapter = new BooksAdapter(booksList);
+        results2.setAdapter(adapter);
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        layout.addView(results);
-        results.setLayoutParams(params);
+
+//        recycleLayout.addView(results2);
+        layout.addView(results2);
+//        results2.setLayoutParams(params);
     }
     private void setTextAttributes(EditText editText) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -233,11 +256,16 @@ public class ApiActivity extends AppCompatActivity {
                 resp[0] = books.getJSONObject(0).getString("title"); // TODO: only displaying first book title for now. MODIFY
                 String tmpbook = resp[0];
 
+
                 textHandler.post(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
-                        results.setText(tmpbook); // TODO: MODIFY handler
+                        booksList.add(new Books("BookTitle2", "Amy", "1990", "2100","en"));
+                        booksList.add(new Books("BookTitle3", "Amy2", "1910", "2020","fr"));
+                        adapter.notifyItemInserted(0);
+                        adapter.notifyItemInserted(1);
+//                        results.setText(tmpbook); // TODO: MODIFY handler
                     }
                 });
                 Log.d(TAG, "Running on a different thread using Thread class");
