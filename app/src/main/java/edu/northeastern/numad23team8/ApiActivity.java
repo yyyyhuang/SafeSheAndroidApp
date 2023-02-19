@@ -3,12 +3,14 @@ package edu.northeastern.numad23team8;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,34 +36,157 @@ public class ApiActivity extends AppCompatActivity {
     private Handler textHandler = new Handler();
 
     // TODO: tmp variables from filter. year and language for now
+    private LinearLayout layout;
     private EditText startYear;
-    private  EditText endYear;
+    private EditText endYear;
     private RadioGroup radioGroup;
-    private RadioButton radioButton;
+    private Button find;
     private TextView results;
+    private String start, end, lan;
     private String webapi = "https://gutendex.com/books";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_api);
+        setContentView(R.layout.activity_dynamic_layouts);
 
         // filter params
-        radioGroup = (RadioGroup) findViewById(R.id.radio);
-        startYear = (EditText) findViewById(R.id.startyear);
-        endYear = (EditText) findViewById(R.id.endyear);
-        results = (TextView) findViewById(R.id.res);
+        layout = findViewById(R.id.linear);
+
+        addText();
+        addRadioButtons();
+        addButton();
+        addRes();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                lan = (i == 1) ? "en": "fr";
+            }
+        });
+    }
+
+    //Adding textviews
+    private void addText() {
+        LinearLayout textLayout = new LinearLayout(this);
+        textLayout.setOrientation(LinearLayout.VERTICAL);
+
+        layout.addView(textLayout);
+
+//        for (int i = 0; i <= 1; i++) {
+//            EditText editText = new EditText(this);
+//            if (i == 0) {
+//                editText.setHint("Enter Start Year");
+//            }else {
+//                editText.setHint("Enter End Year");
+//            }
+//            setTextAttributes(editText);
+//            textLayout.addView(editText);
+//        }
+        startYear = new EditText(this);
+        startYear.setHint("Enter Start Year");
+        setTextAttributes(startYear);
+        textLayout.addView(startYear);
+        addLine();
+
+        endYear = new EditText(this);
+        endYear.setHint("Enter End Year");
+        setTextAttributes(endYear);
+        textLayout.addView(endYear);
+
+    }
+
+    //Adding radio buttons
+    private void addRadioButtons() {
+        radioGroup = new RadioGroup(this);
+        radioGroup.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(radioGroup);
+//        for (int i = 0; i <= 1; i++) {
+//            RadioButton radioButton = new RadioButton(this);
+//            if (i == 0) {
+//                radioButton.setText("English");
+//            } else {
+//                radioButton.setText("French");
+//            }
+//            radioGroup.addView(radioButton);
+////            setButtonAttributes(radioButton);
+//        }
+        RadioButton eng = new RadioButton(this);
+        eng.setText("English");
+        radioGroup.addView(eng);
+        setButtonAttributes(eng);
+
+        addLine();
+
+        RadioButton fren = new RadioButton(this);
+        fren.setText("French");
+        radioGroup.addView(fren);
+        setButtonAttributes(fren);
+    }
+
+    private void addButton() {
+        find = new Button(this);
+        find.setText("FIND");
+        find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callWebserviceButtonHandler(view);
+            }
+        });
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layout.addView(find);
+        find.setLayoutParams(params);
+
+        addLine();
+    }
+
+    private void addRes() {
+        results = new TextView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layout.addView(results);
+        results.setLayoutParams(params);
+    }
+    private void setTextAttributes(EditText editText) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 10, 10, 0);
+        editText.setLayoutParams(params);
+    }
+
+    private void setButtonAttributes(RadioButton radioButton) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 50, 0,0);
+        radioButton.setLayoutParams(params);
+    }
+    private void addLine() {
+        LinearLayout lineLayout = new LinearLayout(this);
+        lineLayout.setBackgroundColor(Color.GRAY);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 2
+        );
+        params.setMargins(0, 2, 0, 2);
+        lineLayout.setLayoutParams(params);
+        layout.addView(lineLayout);
     }
 
     // fetch data button handler
     public void callWebserviceButtonHandler(View view){
         // getting language selected
-        int selectedId = radioGroup.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(selectedId);
-        String lan = radioButton.getText().toString();
-        String start = startYear.getText().toString();
-        String end = endYear.getText().toString();
+//        int selectedId = radioGroup.getCheckedRadioButtonId();
+//        radioButton = (RadioButton) findViewById(selectedId);
+//        String lan = radioButton.getText().toString();
+        start = startYear.getText().toString();
+        end = endYear.getText().toString();
 //        PingWebServiceTask task = new PingWebServiceTask();
 //        String urlText = webapi + "?author_year_start=" + startYear.getText().toString() + "&author_year_end=" + endYear.getText().toString() + "&languages=" + lan;
 //        try{
