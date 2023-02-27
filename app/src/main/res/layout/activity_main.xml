@@ -22,8 +22,30 @@
         android:layout_height="wrap_content"
         android:text="A6"
         app:layout_constraintTop_toBottomOf="@id/info"
+        app:layout_constraintBottom_toTopOf="@id/stick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/stick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stick it"
+        app:layout_constraintTop_toBottomOf="@id/api"
+        app:layout_constraintBottom_toTopOf="@id/about"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        app:layout_constraintTop_toBottomOf="@id/stick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
