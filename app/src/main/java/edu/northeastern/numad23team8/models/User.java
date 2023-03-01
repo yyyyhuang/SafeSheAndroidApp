@@ -9,6 +9,8 @@ public class User {
         this.count = count;
     }
 
+    public User(){}
+
     public String getUsername() {return this.username;}
 
     public int getCount() {return this.count;}

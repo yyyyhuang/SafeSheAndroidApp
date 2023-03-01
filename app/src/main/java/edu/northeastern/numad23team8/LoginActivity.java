@@ -58,10 +58,25 @@ public class LoginActivity extends AppCompatActivity {
                     //create new user
                     User new_user = new User(username, 0);
                     userRef.setValue(new_user);
-                    startActivity(new Intent(LoginActivity.this, ContactActivity.class));
+
+                    // start ContactActivity
+                    Intent i = new Intent(LoginActivity.this, ContactActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", username);
+
+                    i.putExtras(bundle);
+                    startActivity(i);
                 }
                 else {
-                    startActivity(new Intent(LoginActivity.this, ContactActivity.class));
+                    // start ContactActivity
+                    Intent i = new Intent(LoginActivity.this, ContactActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", username);
+
+                    i.putExtras(bundle);
+                    startActivity(i);
                 }
 
             }
