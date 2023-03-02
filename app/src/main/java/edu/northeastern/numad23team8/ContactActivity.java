@@ -27,7 +27,13 @@ public class ContactActivity extends AppCompatActivity {
     ArrayList<User> usersList;
     UserAdapter userAdapter;
     RecyclerView recyclerView;
-    TextView countView;
+    TextView count_0View;
+    TextView count_1View;
+    TextView count_2View;
+    TextView count_3View;
+    TextView count_4View;
+    TextView count_5View;
+
 
 
     @Override
@@ -40,7 +46,12 @@ public class ContactActivity extends AppCompatActivity {
 
         firebasedatabase = FirebaseDatabase.getInstance();
         usersList = new ArrayList<>();
-        countView = findViewById(R.id.count);
+        count_0View = findViewById(R.id.count_0);
+        count_1View = findViewById(R.id.count_1);
+        count_2View = findViewById(R.id.count_2);
+        count_3View = findViewById(R.id.count_3);
+        count_4View = findViewById(R.id.count_4);
+        count_5View = findViewById(R.id.count_5);
 
         DatabaseReference userRef = firebasedatabase.getReference().child("users");
         userRef.addValueEventListener(new ValueEventListener() {
@@ -53,8 +64,23 @@ public class ContactActivity extends AppCompatActivity {
                         usersList.add(user);
                     }
                     else {
-                        String msg = "Total stickers sent: " + user.getCount();
-                        countView.setText(msg);
+                        String msg0 = "Total sticker0 sent: " + user.getCount_0();
+                        count_0View.setText(msg0);
+
+                        String msg1 = "Total sticker1 sent: " + user.getCount_1();
+                        count_1View.setText(msg1);
+
+                        String msg2 = "Total sticker2 sent: " + user.getCount_2();
+                        count_2View.setText(msg2);
+
+                        String msg3 = "Total sticker3 sent: " + user.getCount_3();
+                        count_3View.setText(msg3);
+
+                        String msg4 = "Total sticker4 sent: " + user.getCount_4();
+                        count_4View.setText(msg4);
+
+                        String msg5 = "Total sticker5 sent: " + user.getCount_5();
+                        count_5View.setText(msg5);
                         // Log.d("count: ", String.valueOf(user.getCount()));
                     }
                 }

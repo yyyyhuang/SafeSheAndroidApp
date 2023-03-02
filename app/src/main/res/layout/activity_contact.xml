@@ -7,12 +7,67 @@
     tools:context=".ContactActivity">
 
     <TextView
-        android:id="@+id/count"
+        android:id="@+id/count_0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total stickers sent: "
-        android:layout_margin="10dp"
+        android:text="Total sticker0 sent: "
+        android:layout_margin="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/count_1"/>
+
+    <TextView
+        android:id="@+id/count_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total sticker1 sent: "
+        android:layout_margin="0dp"
+        app:layout_constraintTop_toBottomOf="@id/count_0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/count_2"/>
+
+    <TextView
+        android:id="@+id/count_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total sticker2 sent: "
+        android:layout_margin="0dp"
+        app:layout_constraintTop_toBottomOf="@id/count_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/count_3"/>
+
+    <TextView
+        android:id="@+id/count_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total sticker3 sent: "
+        android:layout_margin="0dp"
+        app:layout_constraintTop_toBottomOf="@id/count_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/count_4"/>
+
+    <TextView
+        android:id="@+id/count_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total sticker4 sent: "
+        android:layout_margin="0dp"
+        app:layout_constraintTop_toBottomOf="@id/count_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/count_5"/>
+
+    <TextView
+        android:id="@+id/count_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total sticker5 sent: "
+        android:layout_margin="0dp"
+        app:layout_constraintTop_toBottomOf="@id/count_4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/contact_recycler_view"/>
@@ -25,7 +80,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/count" />
+        app:layout_constraintTop_toBottomOf="@+id/count_5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

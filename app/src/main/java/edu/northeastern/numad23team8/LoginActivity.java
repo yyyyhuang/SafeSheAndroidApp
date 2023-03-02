@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else if(!dataSnapshot.exists()) {
                     //create new user
-                    User new_user = new User(username, 0);
+                    User new_user = new User(username, 0, 0, 0, 0, 0,0);
                     userRef.setValue(new_user);
 
                     // start ContactActivity
