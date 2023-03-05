@@ -58,6 +58,7 @@ public class ContactActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersList.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     // skip current user

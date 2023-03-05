@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,12 +28,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import edu.northeastern.numad23team8.models.User;
+
 //import edu.northeastern.numad23team8.models.User;
 
 public class ChatView extends AppCompatActivity {
     EditText message;
     Button send;
-
+    private static final String TAG = "CHATVIEW";
     Intent intent;
     private String enteredmessage;
     String receivername, sendername;
@@ -48,7 +51,7 @@ public class ChatView extends AppCompatActivity {
     ArrayList<Message> messageArrayList;
 
     ImageButton sticker0, sticker1, sticker2, sticker3, sticker4, sticker5;
-    String countSticker0, countSticker1, countSticker2, countSticker3, countSticker4, countSticker5;
+    Integer countSticker0, countSticker1, countSticker2, countSticker3, countSticker4, countSticker5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,15 +122,42 @@ public class ChatView extends AppCompatActivity {
         });
 
         // get sticker count
-//        DatabaseReference databaseReference2 = firebaseDatabase.getReference().child("users").child(sendername);
-//        databaseReference2.addValueEventListener(new ValueEventListener() {
+
+
+
+        databaseReference = firebaseDatabase.getReference().child("users");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    User user = dataSnapshot.getValue(User.class);
+                    // skip current user
+                    if (user.getUsername().equals(sendername)) {
+                        countSticker0 = user.getCount_0();
+                        countSticker1 = user.getCount_1();
+                        countSticker2 = user.getCount_2();
+                        countSticker3 = user.getCount_3();
+                        countSticker4 = user.getCount_4();
+                        countSticker5 = user.getCount_5();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        databaseReference = firebaseDatabase.getReference().child("users").child(sendername);
+//        databaseReference.child("users").child(sendername).addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                countSticker0 = snapshot.child("count_0").getValue(String.class);
-//                countSticker2 = snapshot.child("count_1").getValue(String.class);
-//                countSticker3 = snapshot.child("count_3").getValue(String.class);
-//                countSticker4 = snapshot.child("count_4").getValue(String.class);
-//                countSticker5 = snapshot.child("count_5").getValue(String.class);
+//                countSticker0 = snapshot.child("count_0").getValue(Integer.class);
+//                countSticker1 = snapshot.child("count_1").getValue(Integer.class);
+//                countSticker2 = snapshot.child("count_2").getValue(Integer.class);
+//                countSticker3 = snapshot.child("count_3").getValue(Integer.class);
+//                countSticker4 = snapshot.child("count_4").getValue(Integer.class);
+//                countSticker5 = snapshot.child("count_5").getValue(Integer.class);
 //            }
 //
 //            @Override
@@ -161,10 +191,11 @@ public class ChatView extends AppCompatActivity {
                                             }
                                         });
 //                                countSticker0 += 1;
-//                                firebaseDatabase.getReference().child("users").child(sendername).child("count_0").setValue(countSticker0);
+//                                firebaseDatabase.getReference().child("users").child(sendername).child("count_0").setValue(2);
                             }
                         });
-//                firebaseDatabase.getReference().child("users").child(sendername)
+                countSticker0 += 1;
+                firebaseDatabase.getReference().child("users").child(sendername).child("count_0").setValue(countSticker0);
 
             }
         });
@@ -192,6 +223,8 @@ public class ChatView extends AppCompatActivity {
                                         });
                             }
                         });
+                countSticker1 += 1;
+                firebaseDatabase.getReference().child("users").child(sendername).child("count_1").setValue(countSticker1);
             }
         });
 
@@ -218,6 +251,8 @@ public class ChatView extends AppCompatActivity {
                                         });
                             }
                         });
+                countSticker2 += 1;
+                firebaseDatabase.getReference().child("users").child(sendername).child("count_2").setValue(countSticker2);
             }
         });
 
@@ -244,6 +279,8 @@ public class ChatView extends AppCompatActivity {
                                         });
                             }
                         });
+                countSticker3 += 1;
+                firebaseDatabase.getReference().child("users").child(sendername).child("count_3").setValue(countSticker3);
             }
         });
 
@@ -270,6 +307,8 @@ public class ChatView extends AppCompatActivity {
                                         });
                             }
                         });
+                countSticker4 += 1;
+                firebaseDatabase.getReference().child("users").child(sendername).child("count_4").setValue(countSticker4);
             }
         });
         sticker5.setOnClickListener(new View.OnClickListener() {
@@ -295,42 +334,11 @@ public class ChatView extends AppCompatActivity {
                                         });
                             }
                         });
+                countSticker5 += 1;
+                firebaseDatabase.getReference().child("users").child(sendername).child("count_5").setValue(countSticker5);
             }
         });
 
-
-//        send.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                enteredmessage = message.getText().toString();
-//                if (enteredmessage.isEmpty()){
-//                    Toast.makeText(getApplicationContext(), "entermessage", Toast.LENGTH_SHORT).show();
-//                }else{
-//                    Date date = new Date();
-//                    currenttime = simpleDateFormat.format(calendar.getTime());
-//                    Message message1 = new Message(enteredmessage, sendername, currenttime, true);
-//                    firebaseDatabase=FirebaseDatabase.getInstance();
-//                    firebaseDatabase.getReference().child("chats")
-//                            .child(senderroom).child("message")
-//                            .push()
-//                            .setValue(message1).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    firebaseDatabase.getReference().child("chats")
-//                                            .child(receiverroom).child("message")
-//                                            .push()
-//                                            .setValue(message1).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<Void> task) {
-//
-//                                                }
-//                                            });
-//                                }
-//                            });
-//                    message.setText(null);
-//                }
-//            }
-//        });
     }
 
     @Override

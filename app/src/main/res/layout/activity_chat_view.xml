@@ -12,12 +12,13 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcmessage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
-        app:layout_constrainedHeight="true" />
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/view" />
     <TextView
         android:id="@+id/gchat_indicator"
         android:layout_width="wrap_content"
@@ -30,35 +31,19 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        app:layout_constraintBottom_toTopOf="@id/gchat_chatbox" />
 
-    <RelativeLayout
-        android:id="@+id/gchat_chatbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/sticker0" />
 
-<!--                <EditText-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:id="@+id/gchat_message"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:hint="Enter Message"-->
-<!--                    android:background="#ffffff"-->
-<!--                    android:inputType="text"-->
-<!--                    tools:ignore="Autofill"-->
-<!--                    android:layout_toStartOf="@+id/gchat_send" />-->
-<!--                <Button-->
-<!--                    android:id="@+id/gchat_send"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_marginEnd="15dp"-->
-<!--                    android:text="SEND" />-->
-    </RelativeLayout>
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/gchat_chatbox"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="172dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+
+
+<!--    </RelativeLayout>-->
 
     <ImageButton
         android:id="@+id/sticker0"
