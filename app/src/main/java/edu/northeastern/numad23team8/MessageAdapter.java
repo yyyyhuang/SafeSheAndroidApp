@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,33 +72,63 @@ public class MessageAdapter extends RecyclerView.Adapter {
     }
 
     private class SenderViewHolder extends RecyclerView.ViewHolder {
-        TextView messagetext, messagetime;
+        ImageView messagetext;
+        TextView  messagetime;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            messagetext = (TextView) itemView.findViewById(R.id.gchat_message1);
+            messagetext = (ImageView) itemView.findViewById(R.id.gchat_message1);
             messagetime = (TextView) itemView.findViewById(R.id.gchat_time1);
         }
 
         void bind(Message message) {
-            messagetext.setText(message.getMessage());
+            if (message.getMessage().equals("sticker0")) {
+                messagetext.setImageResource(R.drawable.sticker0);
+            }else if(message.getMessage().equals("sticker1")) {
+                messagetext.setImageResource(R.drawable.sticker1);
+            }else if(message.getMessage().equals("sticker2")) {
+                messagetext.setImageResource(R.drawable.sticker2);
+            }else if(message.getMessage().equals("sticker3")) {
+                messagetext.setImageResource(R.drawable.sticker3);
+            }else if(message.getMessage().equals("sticker4")) {
+                messagetext.setImageResource(R.drawable.sticker4);
+            }else if(message.getMessage().equals("sticker5")) {
+                messagetext.setImageResource(R.drawable.sticker5);
+            }else{
+                messagetext.setImageResource(R.drawable.ic_launcher_foreground);
+            }
             messagetime.setText(message.getTime());
         }
     }
 
     private class ReceiverViewHolder extends RecyclerView.ViewHolder {
-        TextView messagetext, messagetime;
+        ImageView messagetext;
+        TextView messagetime;
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            messagetext = (TextView) itemView.findViewById(R.id.gchat_message2);
+            messagetext = (ImageView) itemView.findViewById(R.id.gchat_message2);
             messagetime = (TextView) itemView.findViewById(R.id.gchat_time2);
         }
 
         void bind(Message message) {
-            messagetext.setText(message.getMessage());
+            if (message.getMessage().equals("sticker0")) {
+                messagetext.setImageResource(R.drawable.sticker0);
+            }else if(message.getMessage().equals("sticker1")) {
+                messagetext.setImageResource(R.drawable.sticker1);
+            }else if(message.getMessage().equals("sticker2")) {
+                messagetext.setImageResource(R.drawable.sticker2);
+            }else if(message.getMessage().equals("sticker3")) {
+                messagetext.setImageResource(R.drawable.sticker3);
+            }else if(message.getMessage().equals("sticker4")) {
+                messagetext.setImageResource(R.drawable.sticker4);
+            }else if(message.getMessage().equals("sticker5")) {
+                messagetext.setImageResource(R.drawable.sticker5);
+            }else{
+                messagetext.setImageResource(R.drawable.ic_launcher_foreground);
+            }
             messagetime.setText(message.getTime());
         }
     }
