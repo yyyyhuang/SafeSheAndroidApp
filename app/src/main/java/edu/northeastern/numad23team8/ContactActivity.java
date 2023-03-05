@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -95,7 +96,7 @@ public class ContactActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.contact_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userAdapter = new UserAdapter(ContactActivity.this, usersList);
+        userAdapter = new UserAdapter(ContactActivity.this, usersList, username);
         recyclerView.setAdapter(userAdapter);
     }
 }
