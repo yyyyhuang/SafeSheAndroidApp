@@ -6,11 +6,15 @@ public class Message {
     private String message;
     private String username;
     private String time;
+    private boolean belongstocurrent;
 
-    public Message(String message, String username, String time) {
+
+    public Message() {}
+    public Message(String message, String username, String time, boolean belongstocurrent) {
         this.message = message;
         this.username = username;
         this.time = time;
+        this.belongstocurrent=belongstocurrent;
     }
 
     public String getMessage() {
@@ -35,5 +39,12 @@ public class Message {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean getBelongstocurrent() {
+        return belongstocurrent;
+    }
+    public void setBelongstocurrent(boolean belongstocurrent) {
+        this.belongstocurrent = belongstocurrent;
     }
 }

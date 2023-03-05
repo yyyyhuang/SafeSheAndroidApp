@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import edu.northeastern.numad23team8.models.User;
+//import edu.northeastern.numad23team8.models.User;
 
 public class ChatView extends AppCompatActivity {
     EditText message;
@@ -60,8 +60,13 @@ public class ChatView extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
 
+        intent = getIntent();
+
+        sendername = getIntent().getStringExtra("sendername");
+        receivername=getIntent().getStringExtra("receivername");
+
         messagerc.setLayoutManager(layoutManager);
-        messageAdapter = new MessageAdapter(ChatView.this, messageArrayList, sendername, receivername);
+        messageAdapter = new MessageAdapter(ChatView.this, messageArrayList);
         messagerc.setAdapter((messageAdapter));
 
         firebaseAuth=FirebaseAuth.getInstance();
@@ -69,22 +74,28 @@ public class ChatView extends AppCompatActivity {
         calendar = Calendar.getInstance();
         simpleDateFormat=new SimpleDateFormat("hh:mm a");
 
-
-        sendername = getIntent().getStringExtra("sendername");
-        receivername=getIntent().getStringExtra("receivername");
-
         senderroom = sendername+receivername;
         receiverroom = receivername+sendername;
 
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference().child("chat").child(senderroom).child("message");
-        messageAdapter=new MessageAdapter(ChatView.this, messageArrayList, sendername, receivername);
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child("chats").child(senderroom).child("message");
+        messageAdapter=new MessageAdapter(ChatView.this, messageArrayList);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messageArrayList.clear();
                 for (DataSnapshot snapshot1:snapshot.getChildren()) {
-                    Message message1 = snapshot1.getValue(Message.class);
+                    String message = snapshot1.child("message").getValue(String.class);
+                    String username = snapshot1.child("user").getValue(String.class);
+                    String time = snapshot1.child("time").getValue(String.class);
+                    //Message message1 = snapshot1.getValue(Message.class);
+                    boolean belongstocurrent;
+                    if(sendername.equals(username)) {
+                        belongstocurrent=true;
+                    } else{
+                        belongstocurrent=false;
+                    }
+                    Message message1 = new Message(message, username, time,belongstocurrent);
                     messageArrayList.add(message1);
                 }
                 messageAdapter.notifyDataSetChanged();
@@ -105,8 +116,7 @@ public class ChatView extends AppCompatActivity {
                 }else{
                     Date date = new Date();
                     currenttime = simpleDateFormat.format(calendar.getTime());
-                    User user = new User();
-                    Message message1 = new Message(enteredmessage, sendername, currenttime);
+                    Message message1 = new Message(enteredmessage, sendername, currenttime, true);
                     firebaseDatabase=FirebaseDatabase.getInstance();
                     firebaseDatabase.getReference().child("chats")
                             .child(senderroom).child("message")

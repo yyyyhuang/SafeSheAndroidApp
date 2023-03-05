@@ -1,10 +1,12 @@
 package edu.northeastern.numad23team8;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +18,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private ArrayList<Message> messageList;
     private static final int ITEM_SEND = 1;
     private static final int ITEM_RECEIVE = 2;
-    private String sendername, receivername;
-    public MessageAdapter (Context context, ArrayList<Message> messageList, String sendername, String receivername) {
+    //private String sendername, receivername;
+    public MessageAdapter (Context context, ArrayList<Message> messageList) {
         this.context = context;
         this.messageList = messageList;
-        this.sendername = sendername;
-        this.receivername=receivername;
+//        this.sendername = sendername;
+//        this.receivername=receivername;
     }
 
     @NonNull
@@ -40,23 +42,27 @@ public class MessageAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = (Message) messageList.get(position);
-        switch (holder.getItemViewType()) {
-            case ITEM_SEND:
-                ((SenderViewHolder) holder).bind(message);
-                break;
-            case ITEM_RECEIVE:
-                ((ReceiverViewHolder) holder).bind(message);
+        Class<? extends RecyclerView.ViewHolder> aClass = holder.getClass();
+        if (SenderViewHolder.class.equals(aClass)) {
+            ((SenderViewHolder) holder).bind(message);
+        } else if (ReceiverViewHolder.class.equals(aClass)) {
+            ((ReceiverViewHolder) holder).bind(message);
         }
     }
 
     @Override
     public int getItemViewType( int position) {
+        //Toast.makeText(context, "sendername1"+sendername, Toast.LENGTH_SHORT).show();
+
         Message message = messageList.get(position);
-        if(message.getUser().equals(sendername)) {
+        //System.out.println("sendername"+sendername+"message user"+message.getUser());
+
+        if (message.getBelongstocurrent()==true) {
             return ITEM_SEND;
         } else {
             return ITEM_RECEIVE;
         }
+
     }
 
     @Override
