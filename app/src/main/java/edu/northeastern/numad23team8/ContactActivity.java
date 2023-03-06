@@ -64,7 +64,7 @@ public class ContactActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString("username");
 
-        users = new String[]{"test1", "xingbi", "yaqun", "jingjie"};
+        users = new String[]{"test1", "xingbi", "yaqun", "yingjie"};
         friends = new ArrayList<>();
         for (int i = 0; i < users.length; i++) {
             if (!users[i].equals(username)) {
