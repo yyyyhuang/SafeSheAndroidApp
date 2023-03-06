@@ -2,10 +2,16 @@ package edu.northeastern.numad23team8;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,11 +58,15 @@ public class ChatView extends AppCompatActivity {
 
     ImageButton sticker0, sticker1, sticker2, sticker3, sticker4, sticker5;
     Integer countSticker0, countSticker1, countSticker2, countSticker3, countSticker4, countSticker5;
+    String[] users;
+    ArrayList<String> friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        createNotificationChannel();
         setContentView(R.layout.activity_chat_view);
+
 
 //        message = findViewById(R.id.gchat_message);
 //        send = findViewById(R.id.gchat_send);
@@ -92,6 +102,15 @@ public class ChatView extends AppCompatActivity {
         receiverroom = receivername+sendername;
 
 
+        users = new String[]{"test1", "xingbi", "yaquan", "jingjie"};
+        friends = new ArrayList<>();
+        for (int i = 0; i < users.length; i++) {
+            if (!users[i].equals(sendername)) {
+                friends.add(sendername+users[i]);
+            }
+        }
+
+
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("chats").child(senderroom).child("message");
         messageAdapter=new MessageAdapter(ChatView.this, messageArrayList);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -125,8 +144,8 @@ public class ChatView extends AppCompatActivity {
 
 
 
-        databaseReference = firebaseDatabase.getReference().child("users");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference2 = firebaseDatabase.getReference().child("users");
+        databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
@@ -148,6 +167,21 @@ public class ChatView extends AppCompatActivity {
 
             }
         });
+
+//        DatabaseReference notificationRef1 = firebaseDatabase.getReference().child("chats").child("test1xingbi").child("message");
+//        notificationRef1.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                sendNotification();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+
 //        databaseReference = firebaseDatabase.getReference().child("users").child(sendername);
 //        databaseReference.child("users").child(sendername).addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -166,7 +200,7 @@ public class ChatView extends AppCompatActivity {
 //            }
 //        });
 
-
+        // Set clickable stickers
         sticker0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -340,6 +374,53 @@ public class ChatView extends AppCompatActivity {
         });
 
     }
+
+//    public void createNotificationChannel() {
+//        // This must be called early because it must be called before a notification is sent.
+//        // Create the NotificationChannel, but only on API 26+ because
+//        // the NotificationChannel class is new and not in the support library
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            CharSequence name = "Chat Notifcation";
+//            String description = "Someone send you a new notification";
+//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//            NotificationChannel channel = new NotificationChannel("stick it", name, importance);
+//            channel.setDescription(description);
+//            // Register the channel with the system; you can't change the importance
+//            // or other notification behaviors after this
+//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//    }
+
+//    public void sendNotification(){
+//        // Prepare intent which is triggered if the
+//        // notification is selected
+//        Intent intent = new Intent(this, ChatView.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+//
+////        PendingIntent callIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
+////                new Intent(this, FakeCallActivity.class), 0);
+//
+//
+//        // Build notification
+//        // Actions are just fake
+//        String channelId = "stick it";
+//
+////        Notification noti = new Notification.Builder(this)   DEPRECATED
+//        Notification noti = new NotificationCompat.Builder(this,channelId)
+//
+//                .setContentTitle("You received a sticker from xxx")
+//                .setContentText("Subject").setSmallIcon(R.drawable.sticker0).build();
+////                .addAction(R.drawable.sticker0, "Call", callIntent).setContentIntent(pIntent).build();
+////                .addAction(R.drawable.icon, "More", pIntent)
+////              .addAction(R.drawable.icon, "And more", pIntent).build();
+//
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        // hide the notification after its selected
+//        noti.flags |= Notification.FLAG_AUTO_CANCEL ;
+//
+//        notificationManager.notify(0, noti);
+//    }
 
     @Override
     public void onStart() {

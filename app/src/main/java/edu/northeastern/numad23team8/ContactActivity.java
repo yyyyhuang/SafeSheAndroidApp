@@ -1,22 +1,33 @@
 package edu.northeastern.numad23team8;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import edu.northeastern.numad23team8.Adapters.UserAdapter;
 import edu.northeastern.numad23team8.models.User;
@@ -34,16 +45,32 @@ public class ContactActivity extends AppCompatActivity {
     TextView count_3View;
     TextView count_4View;
     TextView count_5View;
+    Boolean isFirstOpen = false;
+    Boolean isNotificationSend = false;
 
-
+    String[] users;
+    ArrayList<String> friends;
+    Calendar calendar;
+    SimpleDateFormat simpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
         setContentView(R.layout.activity_contact);
 
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString("username");
+
+        users = new String[]{"test1", "xingbi", "yaqun", "jingjie"};
+        friends = new ArrayList<>();
+        for (int i = 0; i < users.length; i++) {
+            if (!users[i].equals(username)) {
+                friends.add(username+users[i]);
+            }
+        }
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("hh:mm a");
 
         firebasedatabase = FirebaseDatabase.getInstance();
         usersList = new ArrayList<>();
@@ -94,10 +121,146 @@ public class ContactActivity extends AppCompatActivity {
 
             }
         });
+        DatabaseReference notificationRef1 = firebasedatabase.getReference().child("chats").child(friends.get(0)).child("message");
+//        notificationRef1.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                Message newMessage = snapshot.getValue(Message.class);
+//                if (!newMessage.getUser().equals(username)) {
+//                    sendNotification();
+//                }
+//            }
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {}
+//        });
+        notificationRef1.limitToLast(1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot sp : snapshot.getChildren()){
+
+                    if (snapshot != null && sp.child("time").getValue().toString().equals(simpleDateFormat.format(calendar.getTime()))
+                    && !sp.child("user").getValue().toString().equals(username)){
+                        sendNotification();
+                    }
+
+                }
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference notificationRef2 = firebasedatabase.getReference().child("chats").child(friends.get(1)).child("message");
+        notificationRef2.limitToLast(1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sp : snapshot.getChildren()){
+
+                    if (snapshot != null && sp.child("time").getValue().toString().equals(simpleDateFormat.format(calendar.getTime()))
+                            && !sp.child("user").getValue().toString().equals(username)){
+                        sendNotification();
+                    }
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference notificationRef3 = firebasedatabase.getReference().child("chats").child(friends.get(2)).child("message");
+        notificationRef3.limitToLast(1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot sp : snapshot.getChildren()){
+
+                    if (snapshot != null && sp.child("time").getValue().toString().equals(simpleDateFormat.format(calendar.getTime()))
+                            && !sp.child("user").getValue().toString().equals(username)){
+                        sendNotification();
+                    }
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         recyclerView = findViewById(R.id.contact_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         userAdapter = new UserAdapter(ContactActivity.this, usersList, username);
         recyclerView.setAdapter(userAdapter);
+
+
+    }
+
+    public void createNotificationChannel() {
+        // This must be called early because it must be called before a notification is sent.
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Chat Notifcation";
+            String description = "Someone send you a new notification";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("stick it", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void sendNotification(){
+        // Prepare intent which is triggered if the
+        // notification is selected
+        Intent intent = new Intent(this, ChatView.class);
+
+//        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+//        PendingIntent pendingIntent;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            pendingIntent = PendingIntent.getActivity(this,
+//                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+//
+//        }else {
+//            pendingIntent = PendingIntent.getActivity(this,
+//                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        }
+//        PendingIntent callIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
+//                new Intent(this, FakeCallActivity.class), 0);
+
+
+        // Build notification
+        // Actions are just fake
+        String channelId = "stick it";
+
+//        Notification noti = new Notification.Builder(this)   DEPRECATED
+        Notification noti = new NotificationCompat.Builder(this,channelId)
+
+                .setContentTitle("You received a sticker from xxx")
+                .setContentText("Subject").setSmallIcon(R.drawable.sticker0).build();
+//                .addAction(R.drawable.sticker0, "Call", callIntent).setContentIntent(pIntent).build();
+//                .addAction(R.drawable.icon, "More", pIntent)
+//              .addAction(R.drawable.icon, "And more", pIntent).build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        noti.flags |= Notification.FLAG_AUTO_CANCEL ;
+
+        notificationManager.notify(0, noti);
     }
 }
