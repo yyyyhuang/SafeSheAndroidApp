@@ -2,10 +2,16 @@ package edu.northeastern.numad23team8;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,11 +58,15 @@ public class ChatView extends AppCompatActivity {
 
     ImageButton sticker0, sticker1, sticker2, sticker3, sticker4, sticker5;
     Integer countSticker0, countSticker1, countSticker2, countSticker3, countSticker4, countSticker5;
+    String[] users;
+    ArrayList<String> friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        createNotificationChannel();
         setContentView(R.layout.activity_chat_view);
+
 
 //        message = findViewById(R.id.gchat_message);
 //        send = findViewById(R.id.gchat_send);
@@ -93,6 +103,15 @@ public class ChatView extends AppCompatActivity {
         receiverroom = receivername+sendername;
 
 
+        users = new String[]{"test1", "xingbi", "yaquan", "jingjie"};
+        friends = new ArrayList<>();
+        for (int i = 0; i < users.length; i++) {
+            if (!users[i].equals(sendername)) {
+                friends.add(sendername+users[i]);
+            }
+        }
+
+
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("chats").child(senderroom).child("message");
         //messageAdapter=new MessageAdapter(ChatView.this, messageArrayList);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -127,8 +146,8 @@ public class ChatView extends AppCompatActivity {
 
 
 
-        databaseReference = firebaseDatabase.getReference().child("users");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference2 = firebaseDatabase.getReference().child("users");
+        databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
@@ -150,25 +169,10 @@ public class ChatView extends AppCompatActivity {
 
             }
         });
-//        databaseReference = firebaseDatabase.getReference().child("users").child(sendername);
-//        databaseReference.child("users").child(sendername).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                countSticker0 = snapshot.child("count_0").getValue(Integer.class);
-//                countSticker1 = snapshot.child("count_1").getValue(Integer.class);
-//                countSticker2 = snapshot.child("count_2").getValue(Integer.class);
-//                countSticker3 = snapshot.child("count_3").getValue(Integer.class);
-//                countSticker4 = snapshot.child("count_4").getValue(Integer.class);
-//                countSticker5 = snapshot.child("count_5").getValue(Integer.class);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
 
+
+        // Set clickable stickers
         sticker0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,8 +196,6 @@ public class ChatView extends AppCompatActivity {
 
                                             }
                                         });
-//                                countSticker0 += 1;
-//                                firebaseDatabase.getReference().child("users").child(sendername).child("count_0").setValue(2);
                             }
                         });
                 countSticker0 += 1;
@@ -342,6 +344,7 @@ public class ChatView extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public void onStart() {
