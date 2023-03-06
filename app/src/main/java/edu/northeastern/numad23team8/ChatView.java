@@ -70,18 +70,19 @@ public class ChatView extends AppCompatActivity {
 
         messageArrayList = new ArrayList<>();
         messagerc = findViewById(R.id.rcmessage);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        messagerc.setHasFixedSize(true);
+        messageAdapter = new MessageAdapter(ChatView.this, messageArrayList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
+        messagerc.setLayoutManager(layoutManager);
+        messagerc.setAdapter(messageAdapter);
+
 
         intent = getIntent();
 
         sendername = getIntent().getStringExtra("sendername");
         receivername= getIntent().getStringExtra("receivername");
 
-        messagerc.setLayoutManager(layoutManager);
-        messageAdapter = new MessageAdapter(ChatView.this, messageArrayList);
-        messagerc.setAdapter((messageAdapter));
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseDatabase= FirebaseDatabase.getInstance();
@@ -93,7 +94,7 @@ public class ChatView extends AppCompatActivity {
 
 
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("chats").child(senderroom).child("message");
-        messageAdapter=new MessageAdapter(ChatView.this, messageArrayList);
+        //messageAdapter=new MessageAdapter(ChatView.this, messageArrayList);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -113,6 +114,7 @@ public class ChatView extends AppCompatActivity {
                     messageArrayList.add(message1);
                 }
                 messageAdapter.notifyDataSetChanged();
+                //messagerc.setAdapter(messageAdapter);
             }
 
             @Override
