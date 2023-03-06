@@ -45,6 +45,7 @@ public class ContactActivity extends AppCompatActivity {
     TextView count_3View;
     TextView count_4View;
     TextView count_5View;
+    TextView user_View;
     Boolean isFirstOpen = false;
     Boolean isNotificationSend = false;
 
@@ -80,6 +81,7 @@ public class ContactActivity extends AppCompatActivity {
         count_3View = findViewById(R.id.count_3);
         count_4View = findViewById(R.id.count_4);
         count_5View = findViewById(R.id.count_5);
+        user_View = findViewById(R.id.curr_user);
 
         DatabaseReference userRef = firebasedatabase.getReference().child("users");
         userRef.addValueEventListener(new ValueEventListener() {
@@ -93,6 +95,7 @@ public class ContactActivity extends AppCompatActivity {
                         usersList.add(user);
                     }
                     else {
+
                         String msg0 = "Total sticker0 sent: " + user.getCount_0();
                         count_0View.setText(msg0);
 
@@ -111,6 +114,7 @@ public class ContactActivity extends AppCompatActivity {
                         String msg5 = "Total sticker5 sent: " + user.getCount_5();
                         count_5View.setText(msg5);
                         // Log.d("count: ", String.valueOf(user.getCount()));
+                        user_View.setText("User: " + username);
                     }
                 }
                 userAdapter.notifyDataSetChanged();
@@ -147,7 +151,8 @@ public class ContactActivity extends AppCompatActivity {
 
                     if (snapshot != null && sp.child("time").getValue().toString().equals(simpleDateFormat.format(calendar.getTime()))
                     && !sp.child("user").getValue().toString().equals(username)){
-                        sendNotification();
+//                        str.replaceAll(word, "");
+                        sendNotification(sp.child("user").getValue().toString().replaceAll(username,""));
                     }
 
                 }
@@ -168,8 +173,10 @@ public class ContactActivity extends AppCompatActivity {
 
                     if (snapshot != null && sp.child("time").getValue().toString().equals(simpleDateFormat.format(calendar.getTime()))
                             && !sp.child("user").getValue().toString().equals(username)){
-                        sendNotification();
+//                        sendNotification();
+                        sendNotification(sp.child("user").getValue().toString().replaceAll(username,""));
                     }
+
 
                 }
             }
@@ -188,8 +195,10 @@ public class ContactActivity extends AppCompatActivity {
 
                     if (snapshot != null && sp.child("time").getValue().toString().equals(simpleDateFormat.format(calendar.getTime()))
                             && !sp.child("user").getValue().toString().equals(username)){
-                        sendNotification();
+//                        sendNotification();
+                        sendNotification(sp.child("user").getValue().toString().replaceAll(username,""));
                     }
+
 
                 }
             }
@@ -224,7 +233,7 @@ public class ContactActivity extends AppCompatActivity {
         }
     }
 
-    public void sendNotification(){
+    public void sendNotification(String sender){
         // Prepare intent which is triggered if the
         // notification is selected
         Intent intent = new Intent(this, ChatView.class);
@@ -250,8 +259,8 @@ public class ContactActivity extends AppCompatActivity {
 //        Notification noti = new Notification.Builder(this)   DEPRECATED
         Notification noti = new NotificationCompat.Builder(this,channelId)
 
-                .setContentTitle("You received a sticker")
-                .setContentText("Greetings").setSmallIcon(R.drawable.sticker0)
+                .setContentTitle(sender)
+                .setContentText("A sticker message").setSmallIcon(R.drawable.sticker0)
                 .setContentIntent(pendingIntent).build();
 //                .addAction(R.drawable.sticker0, "Call", callIntent).setContentIntent(pIntent).build();
 //                .addAction(R.drawable.icon, "More", pIntent)
