@@ -168,37 +168,7 @@ public class ChatView extends AppCompatActivity {
             }
         });
 
-//        DatabaseReference notificationRef1 = firebaseDatabase.getReference().child("chats").child("test1xingbi").child("message");
-//        notificationRef1.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                sendNotification();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
-
-//        databaseReference = firebaseDatabase.getReference().child("users").child(sendername);
-//        databaseReference.child("users").child(sendername).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                countSticker0 = snapshot.child("count_0").getValue(Integer.class);
-//                countSticker1 = snapshot.child("count_1").getValue(Integer.class);
-//                countSticker2 = snapshot.child("count_2").getValue(Integer.class);
-//                countSticker3 = snapshot.child("count_3").getValue(Integer.class);
-//                countSticker4 = snapshot.child("count_4").getValue(Integer.class);
-//                countSticker5 = snapshot.child("count_5").getValue(Integer.class);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         // Set clickable stickers
         sticker0.setOnClickListener(new View.OnClickListener() {
@@ -224,8 +194,6 @@ public class ChatView extends AppCompatActivity {
 
                                             }
                                         });
-//                                countSticker0 += 1;
-//                                firebaseDatabase.getReference().child("users").child(sendername).child("count_0").setValue(2);
                             }
                         });
                 countSticker0 += 1;
@@ -375,52 +343,6 @@ public class ChatView extends AppCompatActivity {
 
     }
 
-//    public void createNotificationChannel() {
-//        // This must be called early because it must be called before a notification is sent.
-//        // Create the NotificationChannel, but only on API 26+ because
-//        // the NotificationChannel class is new and not in the support library
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = "Chat Notifcation";
-//            String description = "Someone send you a new notification";
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel("stick it", name, importance);
-//            channel.setDescription(description);
-//            // Register the channel with the system; you can't change the importance
-//            // or other notification behaviors after this
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
-
-//    public void sendNotification(){
-//        // Prepare intent which is triggered if the
-//        // notification is selected
-//        Intent intent = new Intent(this, ChatView.class);
-//        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-//
-////        PendingIntent callIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
-////                new Intent(this, FakeCallActivity.class), 0);
-//
-//
-//        // Build notification
-//        // Actions are just fake
-//        String channelId = "stick it";
-//
-////        Notification noti = new Notification.Builder(this)   DEPRECATED
-//        Notification noti = new NotificationCompat.Builder(this,channelId)
-//
-//                .setContentTitle("You received a sticker from xxx")
-//                .setContentText("Subject").setSmallIcon(R.drawable.sticker0).build();
-////                .addAction(R.drawable.sticker0, "Call", callIntent).setContentIntent(pIntent).build();
-////                .addAction(R.drawable.icon, "More", pIntent)
-////              .addAction(R.drawable.icon, "And more", pIntent).build();
-//
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//        // hide the notification after its selected
-//        noti.flags |= Notification.FLAG_AUTO_CANCEL ;
-//
-//        notificationManager.notify(0, noti);
-//    }
 
     @Override
     public void onStart() {

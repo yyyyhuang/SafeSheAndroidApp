@@ -230,18 +230,17 @@ public class ContactActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ChatView.class);
 
 //        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-//        PendingIntent pendingIntent;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            pendingIntent = PendingIntent.getActivity(this,
-//                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-//
-//        }else {
-//            pendingIntent = PendingIntent.getActivity(this,
-//                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        }
-//        PendingIntent callIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
-//                new Intent(this, FakeCallActivity.class), 0);
+        PendingIntent pendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(this,
+                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        }else {
+            pendingIntent = PendingIntent.getActivity(this,
+                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        }
+
 
 
         // Build notification
@@ -251,8 +250,9 @@ public class ContactActivity extends AppCompatActivity {
 //        Notification noti = new Notification.Builder(this)   DEPRECATED
         Notification noti = new NotificationCompat.Builder(this,channelId)
 
-                .setContentTitle("You received a sticker from xxx")
-                .setContentText("Subject").setSmallIcon(R.drawable.sticker0).build();
+                .setContentTitle("You received a sticker")
+                .setContentText("Greetings").setSmallIcon(R.drawable.sticker0)
+                .setContentIntent(pendingIntent).build();
 //                .addAction(R.drawable.sticker0, "Call", callIntent).setContentIntent(pIntent).build();
 //                .addAction(R.drawable.icon, "More", pIntent)
 //              .addAction(R.drawable.icon, "And more", pIntent).build();
