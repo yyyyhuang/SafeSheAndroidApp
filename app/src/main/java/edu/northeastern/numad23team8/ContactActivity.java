@@ -12,6 +12,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -258,10 +259,13 @@ public class ContactActivity extends AppCompatActivity {
 
 //        Notification noti = new Notification.Builder(this)   DEPRECATED
         Notification noti = new NotificationCompat.Builder(this,channelId)
-
+//        BitmapFactory.decodeResource(getResources(), R.mipmap.ic_message)
                 .setContentTitle(sender)
-                .setContentText("A sticker message").setSmallIcon(R.drawable.sticker0)
-                .setContentIntent(pendingIntent).build();
+                .setContentText("A sticker message")
+                .setSmallIcon(R.drawable.sticker0)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_team8))
+//                .setContentIntent(pendingIntent)
+                .build();
 //                .addAction(R.drawable.sticker0, "Call", callIntent).setContentIntent(pIntent).build();
 //                .addAction(R.drawable.icon, "More", pIntent)
 //              .addAction(R.drawable.icon, "And more", pIntent).build();
