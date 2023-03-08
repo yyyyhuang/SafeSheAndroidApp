@@ -1,4 +1,4 @@
-package edu.northeastern.numad23team8;
+package edu.northeastern.numad23team8.models;
 
 import edu.northeastern.numad23team8.models.User;
 

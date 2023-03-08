@@ -1,4 +1,4 @@
-package edu.northeastern.numad23team8;
+package edu.northeastern.numad23team8.models;
 
 public class Books {
     private String title, author, birthYear, deathYear, language;

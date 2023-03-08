@@ -1,4 +1,4 @@
-package edu.northeastern.numad23team8;
+package edu.northeastern.numad23team8.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import edu.northeastern.numad23team8.R;
+import edu.northeastern.numad23team8.models.Books;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> {
     private ArrayList<Books> booksList;

@@ -1,18 +1,19 @@
-package edu.northeastern.numad23team8;
+package edu.northeastern.numad23team8.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import edu.northeastern.numad23team8.R;
+import edu.northeastern.numad23team8.models.Message;
 
 public class MessageAdapter extends RecyclerView.Adapter {
     private Context context;
