@@ -7,7 +7,7 @@
     tools:context=".LaunchActivity">
 
     <ImageView
-        android:id="@+id/contacts"
+        android:id="@+id/profile"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
@@ -32,12 +32,13 @@
         android:id="@+id/slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/contacts"
+        android:layout_below="@+id/profile"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/varela_round"
-        android:text="SafeShe is protecting you!"
+        android:text="SafeShe\nis protecting you!"
         android:textAlignment="center"
-        android:textSize="50dp" />
+        android:layout_centerHorizontal="true"
+        android:textSize="40dp" />
 
     <ImageView
         android:id="@+id/dog"
@@ -54,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dog"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:backgroundTint="#000000"
         android:text="Track Location" />
 
@@ -65,7 +66,7 @@
         android:layout_below="@+id/track"
         android:layout_centerHorizontal="true"
         android:backgroundTint="#F8F6F6"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:textColor="@color/black"
         android:text="Start" />
 
