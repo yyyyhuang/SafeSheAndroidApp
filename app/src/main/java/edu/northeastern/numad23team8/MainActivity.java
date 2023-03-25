@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
     private Button api;
     private Button about;
     private Button stickit;
+    private Button project;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         api = (Button) findViewById(R.id.api);
         about = (Button) findViewById(R.id.about);
         stickit = (Button) findViewById(R.id.stick);
+        project = (Button) findViewById(R.id.project);
 
         api.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+
+        project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SplashScreen.class));
             }
         });
     }
