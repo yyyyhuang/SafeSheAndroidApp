@@ -1,20 +1,24 @@
 package edu.northeastern.numad23team8.models;
 
 public class Friend {
-    private String first_name, last_name;
-    private int number, emergency_contact;
+    private String username, email;
+    private int emergency_contact;
 
-    public Friend(String first_name, String last_name, int number, int emergency_contact){
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.number = number;
+    public Friend(String username, String email){
+        this.username = username;
+        this.email = email;
+    }
+    public Friend(String username, int emergency_contact, String email){
+        this.username = username;
         this.emergency_contact = emergency_contact;
+        this.email = email;
     }
 
     public Friend(){}
 
-    public String getFirst_name(){return this.first_name;}
-    public String getLast_name(){return this.last_name;}
-    public int getNumber(){return this.number;}
+    public void setEmergency_contact(int number){this.emergency_contact = number;}
+
+    public String getEmail(){return this.email;}
+    public String getUsername(){return this.username;}
     public int getEmergency_contact(){return this.emergency_contact;}
 }

@@ -12,17 +12,33 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class LaunchActivity extends AppCompatActivity {
     private ImageView profile, emergency_contact;
     private Button track;
     private Button start;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private String userKey;
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
-        String ENUM = sharedPreferences.getString("ENUM","NONE");
-        if(ENUM.equalsIgnoreCase("NONE")){
+        // TODO: USE FIRBASE DATABASE TO CHECK
+//        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+//        String ENUM = sharedPreferences.getString("ENUM","NONE");
+//        if(ENUM.equalsIgnoreCase("NONE")){
+//            startActivity(new Intent(this,RegisterNumberActivity.class));
+//        }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userKey = user.getUid();
+        if(mDatabase.child("accounts").child(userKey).child("emergency_contact").equals(0)){
             startActivity(new Intent(this,RegisterNumberActivity.class));
         }
     }

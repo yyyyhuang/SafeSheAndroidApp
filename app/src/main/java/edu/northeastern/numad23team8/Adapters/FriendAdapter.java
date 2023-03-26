@@ -20,13 +20,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     Context profileActivity;
     private ArrayList<Friend> friendsList;
-    String first_name, last_name;
+    String username;
 
-    public FriendAdapter(Context profileActivity, ArrayList<Friend> friendsList, String first_name, String last_name){
+    public FriendAdapter(Context profileActivity, ArrayList<Friend> friendsList, String username){
         this.profileActivity = profileActivity;
-        this.first_name = first_name;
+        this.username = username;
         this.friendsList = friendsList;
-        this.last_name = last_name;
     }
 
     @NonNull
@@ -39,7 +38,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull FriendAdapter.ViewHolder holder, int position) {
         Friend friend = friendsList.get(position);
-        holder.usernameView.setText(friend.getFirst_name() + " " + friend.getLast_name());
+        // holder.usernameView.setText(friend.getFirst_name() + " " + friend.getLast_name());
 
         //TODO: implement onclick to change friend as emergency contact
         holder.itemView.setOnClickListener(new View.OnClickListener() {
