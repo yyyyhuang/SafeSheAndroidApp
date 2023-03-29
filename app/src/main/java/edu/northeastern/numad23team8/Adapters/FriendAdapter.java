@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -20,11 +23,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     Context profileActivity;
     private ArrayList<Friend> friendsList;
-    String username;
+    String userKey;
 
-    public FriendAdapter(Context profileActivity, ArrayList<Friend> friendsList, String username){
+    public FriendAdapter(Context profileActivity, ArrayList<Friend> friendsList, String userKey){
         this.profileActivity = profileActivity;
-        this.username = username;
+        this.userKey = userKey;
         this.friendsList = friendsList;
     }
 
@@ -38,7 +41,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull FriendAdapter.ViewHolder holder, int position) {
         Friend friend = friendsList.get(position);
-        // holder.usernameView.setText(friend.getFirst_name() + " " + friend.getLast_name());
+        holder.usernameView.setText(friend.getUsername());
+        // TODO: DETAIL IMAGEVIEW
+        // Picasso.get()
+        // .load(friend.getImageUrl())
+        // .placeholder(R.drawable/ic_baseline_account_circle_24)
+        // .resize(60,60)
+        // .centerCrop()
+        // .into(holder.userImg);
 
         //TODO: implement onclick to change friend as emergency contact
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,10 +75,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView usernameView;
+        ImageView userImg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameView = itemView.findViewById(R.id.username);
+            userImg = itemView.findViewById(R.id.user_img);
         }
     }
 }

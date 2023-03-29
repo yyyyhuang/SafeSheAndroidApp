@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import edu.northeastern.numad23team8.models.Friend;
+
 public class RegisterNumberActivity extends AppCompatActivity {
     private EditText number;
     private DatabaseReference mDatabase;

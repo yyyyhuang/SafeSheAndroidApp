@@ -143,7 +143,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void writeNewUser(String userId, String name, String email) {
         Friend user = new Friend(name, email);
-
         mDatabase.child("accounts").child(userId).setValue(user);
+        user.setUserKey(userId);
+
     }
 }
