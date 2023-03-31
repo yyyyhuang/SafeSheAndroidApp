@@ -2,15 +2,21 @@ package edu.northeastern.numad23team8.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,10 +31,16 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     private ArrayList<Friend> friendsList;
     String userKey;
 
+    private DatabaseReference mDatabase;
+
+
     public FriendAdapter(Context profileActivity, ArrayList<Friend> friendsList, String userKey){
         this.profileActivity = profileActivity;
         this.userKey = userKey;
         this.friendsList = friendsList;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
     }
 
     @NonNull
@@ -50,11 +62,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         // .centerCrop()
         // .into(holder.userImg);
 
+        // Log.i("adapter userkey", userKey);
+
         //TODO: implement onclick to change friend as emergency contact
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mDatabase.child("accounts").child(userKey).child("emergency_contact").setValue(friend.getNumber());
+                Toast.makeText(profileActivity, "EMERGENCY CONTACT UPDATED!", Toast.LENGTH_SHORT).show();
             }
         });
 

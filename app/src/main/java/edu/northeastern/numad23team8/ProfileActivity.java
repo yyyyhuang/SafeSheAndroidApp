@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,8 +19,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView change_profile;
     private ImageView profile_img;
+    private FloatingActionButton fab;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -65,18 +72,22 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         profile_img = findViewById(R.id.profile_picture);
+        fab = findViewById(R.id.addFriendFAB);
         idList = new ArrayList<>();
         mUsers = new ArrayList<>();
 
         recyclerView = findViewById(R.id.friends_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        friendAdapter = new FriendAdapter(this, mUsers, userKey);
-        recyclerView.setAdapter(friendAdapter);
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         userKey = user.getUid();
+
+        friendAdapter = new FriendAdapter(this, mUsers, userKey);
+        recyclerView.setAdapter(friendAdapter);
+
         DatabaseReference ref = mDatabase.child("accounts").child(userKey);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -108,8 +119,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: GETTING FRIENDS
+
         getContacts();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog();
+            }
+        });
     }
 
     private void getContacts(){
@@ -157,6 +175,53 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void dialog(){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog);
+
+        EditText edEmail = dialog.findViewById(R.id.edit_email);
+        Button saveEmail = dialog.findViewById(R.id.save);
+
+
+        saveEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String friendEmail = edEmail.getText().toString();
+                if(friendEmail.length() != 0) {
+                    mDatabase.child("accounts").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                String currentId = snapshot.getKey();
+                                Friend friend = snapshot.getValue(Friend.class);
+
+                                if (friendEmail.equals(friend.getEmail())){
+                                    mDatabase.child("contacts").child(userKey).child(currentId).setValue(true);
+                                    mDatabase.child("contacts").child(currentId).child(userKey).setValue(true);
+                                    dialog.dismiss();
+                                    mUsers.add(friend);
+                                    friendAdapter.notifyDataSetChanged();
+                                    Snackbar succeed = Snackbar.make(recyclerView, "Friend added", Snackbar.LENGTH_LONG);
+                                    succeed.show();
+                                    return;
+                                }
+                            }
+                            Snackbar fail = Snackbar.make(recyclerView, "User doesn't exit", Snackbar.LENGTH_LONG);
+                            fail.show();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+        });
+        dialog.show();
+
     }
 
 
