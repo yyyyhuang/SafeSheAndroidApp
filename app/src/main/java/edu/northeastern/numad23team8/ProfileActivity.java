@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,11 +55,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView change_profile;
     private ImageView profile_img;
     private FloatingActionButton fab;
+    private TextView name_view;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private String userKey;
     private String url;
+    private String name;
 
     private List<String> idList;
     private ArrayList<Friend> mUsers;
@@ -73,6 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         profile_img = findViewById(R.id.profile_picture);
         fab = findViewById(R.id.addFriendFAB);
+        name_view = findViewById(R.id.username);
+
         idList = new ArrayList<>();
         mUsers = new ArrayList<>();
 
@@ -94,6 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Friend user = snapshot.getValue(Friend.class);
                 url = user.getImageUrl();
+                name = user.getUsername();
                 if(!url.equals(" ")){
                     Log.i("url", url);
                     Picasso.get()
@@ -103,6 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
                             .centerCrop()
                             .into(profile_img);
                 }
+                name_view.setText(name);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
