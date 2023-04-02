@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,6 +40,7 @@ public class ChangeImageActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
+    private ProgressBar progressbar;
 
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -65,6 +67,7 @@ public class ChangeImageActivity extends AppCompatActivity {
         btnChoose = (Button) findViewById(R.id.btnChoose);
         btnUpload = (Button) findViewById(R.id.btnUpload);
         imageView = (ImageView) findViewById(R.id.imgView);
+        progressbar = findViewById(R.id.progressbar);
 
 
         resultLauncher = registerForActivityResult(
@@ -73,21 +76,18 @@ public class ChangeImageActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null
-                                && result.getData().getData() != null){
+                                && result.getData().getData() != null) {
                             Intent data = result.getData();
                             filePath = data.getData();
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                                 imageView.setImageBitmap(bitmap);
-                            } catch (IOException e)
-                            {
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
                 });
-
-
 
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -105,9 +105,7 @@ public class ChangeImageActivity extends AppCompatActivity {
         });
 
 
-
     }
-
 
 
     private void chooseImage() {
@@ -136,14 +134,15 @@ public class ChangeImageActivity extends AppCompatActivity {
         resultLauncher.launch(intent);
     }
 
-    public void uploadImage(){
-        if(filePath != null) {
-            // TODO: ADD PROGRESSBAR
-            StorageReference ref = storageReference.child("images/"+ userKey);
+    public void uploadImage() {
+        if (filePath != null) {
+            progressbar.setVisibility(View.VISIBLE);
+            StorageReference ref = storageReference.child("images/" + userKey);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressbar.setVisibility(View.GONE);
                             Toast.makeText(ChangeImageActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                             Task<Uri> downloadUrl = ref.getDownloadUrl();
                             downloadUrl.addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -153,23 +152,18 @@ public class ChangeImageActivity extends AppCompatActivity {
                                     mDatabase.child("accounts").child(userKey).child("imageUrl").setValue(imageRef);
                                 }
                             });
-
+                            startActivity(new Intent(ChangeImageActivity.this, ProfileActivity.class));
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ChangeImageActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            progressbar.setVisibility(View.GONE);
+                            Toast.makeText(ChangeImageActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                     });
-            // TODO: REDIRECT TO PROFILE
+
         }
     }
-
-
-
-
-
-
-
 }

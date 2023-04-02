@@ -54,17 +54,16 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     public void onBindViewHolder(@NonNull FriendAdapter.ViewHolder holder, int position) {
         Friend friend = friendsList.get(position);
         holder.usernameView.setText(friend.getUsername());
-        // TODO: DETAIL IMAGEVIEW
-        // Picasso.get()
-        // .load(friend.getImageUrl())
-        // .placeholder(R.drawable/ic_baseline_account_circle_24)
-        // .resize(60,60)
-        // .centerCrop()
-        // .into(holder.userImg);
+        if(!friend.getImageUrl().equals(" ")){
+            Picasso.get()
+                    .load(friend.getImageUrl())
+                    .placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .resize(60,60)
+                    .centerCrop()
+                    .into(holder.userImg);
+        }
 
-        // Log.i("adapter userkey", userKey);
 
-        //TODO: implement onclick to change friend as emergency contact
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -36,7 +36,6 @@ public class ApiActivity extends AppCompatActivity {
     private static final String TAG = "ApiActivity";
     private Handler textHandler = new Handler();
 
-    // TODO: tmp variables from filter. year and language for now
     private LinearLayout layout;
     private EditText startYear;
     private EditText endYear;
@@ -157,7 +156,6 @@ public class ApiActivity extends AppCompatActivity {
         layout.addView(progressBar);
     }
 
-    //TODO: add recyclerview to res
     private void addRes() {
 //        results = new TextView(this);
 //        LinearLayout recycleLayout = new LinearLayout(this);
@@ -255,7 +253,7 @@ public class ApiActivity extends AppCompatActivity {
                 JSONObject responseJSON = new JSONObject(response);
                 // only need books
                 JSONArray books = responseJSON.getJSONArray("results"); // Note: books is a array of book objects
-                // TODO: only displaying first book title for now. MODIFY
+
 
                 resp[0] = books.getJSONObject(0).getString("title");
                 String tmpbook = resp[0];
@@ -300,7 +298,7 @@ public class ApiActivity extends AppCompatActivity {
 //                        booksList.add(new Books("BookTitle3", "Amy2", "1910", "2020","fr"));
 //                        adapter.notifyItemInserted(0);
 //                        adapter.notifyItemInserted(1);
-//                        results.setText(tmpbook); // TODO: MODIFY handler
+//                        results.setText(tmpbook);
                     }
                 });
                 Log.d(TAG, "Running on a different thread using Thread class");

@@ -45,7 +45,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         User user = usersList.get(position);
         holder.usernameView.setText(user.getUsername());
 
-        //TODO: implement onclick to chatActivity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
