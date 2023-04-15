@@ -65,6 +65,13 @@ public class LaunchActivity extends AppCompatActivity {
         track = findViewById(R.id.track);
         start = findViewById(R.id.start);
 
+        track.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LaunchActivity.this,MapsActivity.class));
+            }
+        });
+
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
