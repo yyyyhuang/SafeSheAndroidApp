@@ -82,27 +82,27 @@ public class LaunchActivity extends AppCompatActivity {
         emergency_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu(view);
+                startActivity(new Intent(LaunchActivity.this, NumberActivity.class));
             }
         });
 
     }
 
-    public void PopupMenu(View view){
-        PopupMenu popupMenu = new PopupMenu(LaunchActivity.this, view);
-        popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.edit_contact){
-                    // Toast.makeText(LaunchActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LaunchActivity.this,RegisterNumberActivity.class));
-                }
-                return true;
-            }
-        });
-        popupMenu.show();
-    }
+//    public void PopupMenu(View view){
+//        PopupMenu popupMenu = new PopupMenu(LaunchActivity.this, view);
+//        popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                if(menuItem.getItemId() == R.id.edit_contact){
+//                    // Toast.makeText(LaunchActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(LaunchActivity.this,RegisterNumberActivity.class));
+//                }
+//                return true;
+//            }
+//        });
+//        popupMenu.show();
+//    }
 
 
 }
