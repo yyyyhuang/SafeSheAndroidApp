@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LaunchActivity extends AppCompatActivity {
     private ImageView profile, emergency_contact;
     private Button track;
-    private Button start;
+    private ToggleButton start;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private String userKey;
@@ -85,6 +86,20 @@ public class LaunchActivity extends AppCompatActivity {
                 startActivity(new Intent(LaunchActivity.this, NumberActivity.class));
             }
         });
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (start.isChecked()){
+                    Toast.makeText(LaunchActivity.this,"Shake to send SOS message",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(LaunchActivity.this,"Service Stopped",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
