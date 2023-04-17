@@ -20,7 +20,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +32,9 @@ public class MapsActivity extends AppCompatActivity {
     FusedLocationProviderClient client;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
+    Marker currentMarker;
+
+//    private static final String LOCATION_KEY = "location";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +82,23 @@ public class MapsActivity extends AppCompatActivity {
             // request permission
             ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+
+//        //restore location data
+//        if (savedInstanceState != null) {
+//            Location savedLocation = savedInstanceState.getParcelable(LOCATION_KEY);
+//            if (savedInstanceState != null) {
+//                updateMap(savedLocation);
+//            }
+//        }
     }
+
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if (currentMarker != null) {
+//            outState.putParcelable(LOCATION_KEY, currentMarker.getPosition());
+//        }
+//    }
 
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -102,9 +123,12 @@ public class MapsActivity extends AppCompatActivity {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-                googleMap.addMarker(markerOptions);
+                if(currentMarker != null) {
+                    currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                }
+                currentMarker = googleMap.addMarker(markerOptions);
             }
         });
     }
@@ -157,4 +181,23 @@ public class MapsActivity extends AppCompatActivity {
         super.onResume();
         startLocationUpdates();
     }
+
+//    @Override
+//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        LatLng markerPosition = savedInstanceState.getParcelable(LOCATION_KEY);
+//        if (markerPosition != null) {
+//            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+//                @Override
+//                public void onMapReady(@NonNull GoogleMap googleMap) {
+//                    MarkerOptions markerOptions = new MarkerOptions().position(markerPosition).title("I am here!").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+//                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerPosition,10));
+//                    if(currentMarker != null) {
+//                        currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+//                    }
+//                    currentMarker = googleMap.addMarker(markerOptions);
+//                }
+//            });
+//        }
+//    }
 }
