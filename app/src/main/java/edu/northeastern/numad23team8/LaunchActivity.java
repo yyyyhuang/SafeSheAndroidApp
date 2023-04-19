@@ -85,7 +85,6 @@ public class LaunchActivity extends AppCompatActivity {
                 startActivity(new Intent(LaunchActivity.this, NumberActivity.class));
             }
         });
-
     }
 
 //    public void PopupMenu(View view){
