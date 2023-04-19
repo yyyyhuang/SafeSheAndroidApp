@@ -31,7 +31,6 @@ public class ShakeToSendSMS extends Service {
         return null;
     }
 
-//    TODO: Maybe set private?
     private SmsManager smsManager = SmsManager.getDefault();
     private String currLocation;
 
