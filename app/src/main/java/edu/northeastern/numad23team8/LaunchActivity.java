@@ -86,6 +86,34 @@ public class LaunchActivity extends AppCompatActivity {
         track = findViewById(R.id.track);
         start = findViewById(R.id.start);
 
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        SensorEventListener sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                if (sensorEvent != null) {
+                    float x_val = sensorEvent.values[0];
+                    float y_val = sensorEvent.values[1];
+                    float z_val = sensorEvent.values[2];
+                    currAccel = (float) Math.sqrt((double) (x_val * x_val) + (y_val * y_val) + (z_val * z_val));
+                    float delta = Math.abs(currAccel - lastAccel);
+                    lastAccel = currAccel;
+                    accel = accel * 0.9f + delta;
+                    if (accel > 12) {
+                        Toast.makeText(LaunchActivity.this,"Shake Detected",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    curr.setText("curr: " + currAccel +" last" + lastAccel);
+                    last.setText("delta: " + accel);
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
         track.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +139,8 @@ public class LaunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (start.isChecked()){
-                    detectShake();
+//                    detectShake();
+                    sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
 //                    if (ActivityCompat.checkSelfPermission(LaunchActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
 //                    && ContextCompat.checkSelfPermission(LaunchActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
@@ -136,7 +165,7 @@ public class LaunchActivity extends AppCompatActivity {
 //                        getApplicationContext().stopService(smsIntent);
 //
 //                    }
-
+                    sensorManager.unregisterListener(sensorEventListener, sensor);
                     Toast.makeText(LaunchActivity.this,"Service Stopped",
                             Toast.LENGTH_SHORT).show();
 
@@ -148,45 +177,34 @@ public class LaunchActivity extends AppCompatActivity {
 
     }
     private void detectShake(){
-        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        SensorEventListener sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                if (sensorEvent != null) {
-                    float x_val = sensorEvent.values[0];
-                    float y_val = sensorEvent.values[1];
-                    float z_val = sensorEvent.values[2];
-                    currAccel = (float) Math.sqrt((double) (x_val * x_val) + (y_val * y_val) + (z_val * z_val));
-                    float delta = Math.abs(currAccel - lastAccel);
-                    lastAccel = currAccel;
-                    accel = accel * 0.9f + delta;
-                    if (accel > 12) {
-                        Toast.makeText(LaunchActivity.this,"Shake Detected",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    curr.setText("curr: " + currAccel +" last" + lastAccel);
-                    last.setText("delta: " + accel);
-
-//                    if (-3 > x_val || x_val > 3 ||
-//                            -3 > y_val || y_val > 3 ||
-//                            -3 > z_val || z_val > 3 ) {
+//        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+//        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//        SensorEventListener sensorEventListener = new SensorEventListener() {
+//            @Override
+//            public void onSensorChanged(SensorEvent sensorEvent) {
+//                if (sensorEvent != null) {
+//                    float x_val = sensorEvent.values[0];
+//                    float y_val = sensorEvent.values[1];
+//                    float z_val = sensorEvent.values[2];
+//                    currAccel = (float) Math.sqrt((double) (x_val * x_val) + (y_val * y_val) + (z_val * z_val));
+//                    float delta = Math.abs(currAccel - lastAccel);
+//                    lastAccel = currAccel;
+//                    accel = accel * 0.9f + delta;
+//                    if (accel > 12) {
 //                        Toast.makeText(LaunchActivity.this,"Shake Detected",
 //                                Toast.LENGTH_SHORT).show();
 //                    }
-                }
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
-        };
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+//                    curr.setText("curr: " + currAccel +" last" + lastAccel);
+//                    last.setText("delta: " + accel);
+//                }
+//            }
+//
+//            @Override
+//            public void onAccuracyChanged(Sensor sensor, int i) {
+//
+//            }
+//        };
 //        sensorManager.unregisterListener(sensorEventListener, sensor);
-
-
 
     }
 

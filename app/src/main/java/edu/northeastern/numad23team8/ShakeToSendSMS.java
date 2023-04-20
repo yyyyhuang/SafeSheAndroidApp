@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.IBinder;
 import android.telephony.SmsManager;
@@ -33,6 +34,10 @@ public class ShakeToSendSMS extends Service {
 
     private SmsManager smsManager = SmsManager.getDefault();
     private String currLocation;
+
+    private float accel = 10f;
+    private float currAccel = SensorManager.GRAVITY_EARTH;
+    private float lastAccel = SensorManager.GRAVITY_EARTH;
 
     @Override
     public void onCreate() {
@@ -96,5 +101,7 @@ public class ShakeToSendSMS extends Service {
 
         return super.onStartCommand(intent,flags,startId);
     }
+
+
 
 }
