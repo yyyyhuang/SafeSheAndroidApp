@@ -14,6 +14,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -52,6 +53,7 @@ public class LaunchActivity extends AppCompatActivity {
     private float lastAccel = SensorManager.GRAVITY_EARTH;
     private boolean isSend = false;
     private String emergencyNum;
+    private MediaPlayer mediaPlayer;
 
 //    private TextView curr, last;
 
@@ -126,6 +128,12 @@ public class LaunchActivity extends AppCompatActivity {
                     lastAccel = currAccel;
                     accel = accel * 0.9f + delta;
                     if (accel > 12 && !isSend ) {
+                        if (mediaPlayer == null) {
+                            mediaPlayer = MediaPlayer.create(LaunchActivity.this, R.raw.emergency_alert);
+                        }
+                        mediaPlayer.start();
+                        mediaPlayer.setLooping(true);
+
                         sendSMS();
                         Toast.makeText(LaunchActivity.this,"SMS Send",
                                 Toast.LENGTH_SHORT).show();
@@ -163,6 +171,10 @@ public class LaunchActivity extends AppCompatActivity {
                         sensorManager.unregisterListener(sensorEventListener, sensor);
                         Toast.makeText(LaunchActivity.this,"Service Stopped",
                                 Toast.LENGTH_SHORT).show();
+                        if (mediaPlayer != null) {
+                            mediaPlayer.release();
+                            mediaPlayer = null;
+                        }
                     }else {
                         ActivityCompat.requestPermissions(LaunchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS}, 44);
                     }
@@ -224,6 +236,14 @@ public class LaunchActivity extends AppCompatActivity {
     }
 
 
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if (mediaPlayer != null) {
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
+//    }
 //    public void PopupMenu(View view){
 //        PopupMenu popupMenu = new PopupMenu(LaunchActivity.this, view);
 //        popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
