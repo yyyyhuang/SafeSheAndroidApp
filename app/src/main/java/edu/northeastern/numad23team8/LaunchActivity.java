@@ -9,6 +9,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -37,6 +42,11 @@ public class LaunchActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String userKey;
     private long ENum;
+    private float accel = 10f;
+    private float currAccel = SensorManager.GRAVITY_EARTH;
+    private float lastAccel = SensorManager.GRAVITY_EARTH;
+
+    private TextView curr, last;
 
     @Override
     public void onResume(){
@@ -48,6 +58,7 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
 
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
 //        mAuth = FirebaseAuth.getInstance();
@@ -66,6 +77,9 @@ public class LaunchActivity extends AppCompatActivity {
 //            }
 //        });
 //        if(ENum == 0){startActivity(new Intent(LaunchActivity.this,RegisterNumberActivity.class));}
+
+        curr = findViewById(R.id.textcurr);
+        last = findViewById(R.id.textlast);
 
         profile = findViewById(R.id.profile);
         emergency_contact = findViewById(R.id.emergency_contact);
@@ -97,31 +111,81 @@ public class LaunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (start.isChecked()){
-                    if (ActivityCompat.checkSelfPermission(LaunchActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(LaunchActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                        Intent smsIntent = new Intent(LaunchActivity.this, ShakeToSendSMS.class);
-                        smsIntent.setAction("start");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            getApplicationContext().startForegroundService(smsIntent);
-                            Toast.makeText(LaunchActivity.this,"Shake to send SOS message",
-                                    Toast.LENGTH_SHORT).show();
-                    }
-                    }else {
-                        ActivityCompat.requestPermissions(LaunchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS}, 44);
-                    }
+                    detectShake();
+
+//                    if (ActivityCompat.checkSelfPermission(LaunchActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                    && ContextCompat.checkSelfPermission(LaunchActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+//                        Intent smsIntent = new Intent(LaunchActivity.this, ShakeToSendSMS.class);
+//                        smsIntent.setAction("start");
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                            getApplicationContext().startForegroundService(smsIntent);
+//                            Toast.makeText(LaunchActivity.this,"Shake to send SOS message",
+//                                    Toast.LENGTH_SHORT).show();
+//                    }
+//                    }else {
+//                        ActivityCompat.requestPermissions(LaunchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS}, 44);
+//                    }
+
                 }else {
-                    Intent smsIntent = new Intent(LaunchActivity.this, ShakeToSendSMS.class);
-                    smsIntent.setAction("STOP");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        getApplicationContext().startForegroundService(smsIntent);
-                        getApplicationContext().stopService(smsIntent);
-                        Toast.makeText(LaunchActivity.this,"Service Stopped",
-                                Toast.LENGTH_SHORT).show();
-                    }
+
+
+//                    Intent smsIntent = new Intent(LaunchActivity.this, ShakeToSendSMS.class);
+//                    smsIntent.setAction("STOP");
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+////                        getApplicationContext().startForegroundService(smsIntent);
+//                        getApplicationContext().stopService(smsIntent);
+//
+//                    }
+
+                    Toast.makeText(LaunchActivity.this,"Service Stopped",
+                            Toast.LENGTH_SHORT).show();
+
 
                 }
             }
         });
+
+
+    }
+    private void detectShake(){
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        SensorEventListener sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                if (sensorEvent != null) {
+                    float x_val = sensorEvent.values[0];
+                    float y_val = sensorEvent.values[1];
+                    float z_val = sensorEvent.values[2];
+                    currAccel = (float) Math.sqrt((double) (x_val * x_val) + (y_val * y_val) + (z_val * z_val));
+                    float delta = Math.abs(currAccel - lastAccel);
+                    lastAccel = currAccel;
+                    accel = accel * 0.9f + delta;
+                    if (accel > 12) {
+                        Toast.makeText(LaunchActivity.this,"Shake Detected",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    curr.setText("curr: " + currAccel +" last" + lastAccel);
+                    last.setText("delta: " + accel);
+
+//                    if (-3 > x_val || x_val > 3 ||
+//                            -3 > y_val || y_val > 3 ||
+//                            -3 > z_val || z_val > 3 ) {
+//                        Toast.makeText(LaunchActivity.this,"Shake Detected",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+//        sensorManager.unregisterListener(sensorEventListener, sensor);
+
 
 
     }
