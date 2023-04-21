@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.EditText;
@@ -21,8 +22,8 @@ import android.os.Bundle;
 public class LoginActivity2 extends AppCompatActivity {
 
     private EditText emailTextView, passwordTextView;
-    private Button Btn;
-    private Button signup;
+    private ImageButton Btn;
+    private ImageButton signup;
     private ProgressBar progressbar;
 
     private FirebaseAuth mAuth;

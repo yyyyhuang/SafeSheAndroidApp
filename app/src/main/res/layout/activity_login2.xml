@@ -10,43 +10,67 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="15dp"
+    android:padding="25dp"
     tools:context=".LoginActivity">
 
     <!-- TextView for heading -->
-    <TextView
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Login"/>-->
+
+    <!-- Heading   -->
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"/>
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"
+        android:src="@drawable/loginwelcome" />
 
     <!-- Edit text for email -->
     <EditText
-        android:id="@+id/email"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your Email" />
+        android:layout_width="match_parent"
+        android:hint="Enter your Email"
+        android:paddingLeft="5dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/textbar"
+        android:id="@+id/email"/>
 
     <!-- Edit text for password -->
     <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:hint="Enter your Password"
-        android:inputType="textPassword" />
+        android:paddingLeft="5dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/textbar"
+        android:id="@+id/password"
+        android:inputType="textPassword"/>
 
     <!-- Button for Login with text "Login" -->
-    <Button
+    <ImageButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login" />
+        android:src="@drawable/login"
+        android:layout_gravity="center"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
 
-    <Button
+    <ImageButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:id="@+id/signup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Up" />
+        android:src="@drawable/signup"
+        android:layout_gravity="center"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="180"
+        android:src="@drawable/paw" />
     <!-- ProgressBar for Loading Time -->
     <ProgressBar
         android:id="@+id/progressBar"
