@@ -7,101 +7,129 @@
     android:layout_height="match_parent"
     tools:context=".LaunchActivity">
 
-    <ImageView
-        android:id="@+id/profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/contact_outline"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/emergency_contact"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="14dp"
-        android:src="@drawable/ic_outline_phone_24"
+    <!--    <TextView-->
+    <!--        android:id="@+id/slogan"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        android:text="SafeShe\nis protecting you!"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="40dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/dog"-->
+    <!--        app:layout_constraintHorizontal_bias="0.485"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/lauchlinear" />-->
+
+    <LinearLayout
+        android:id="@+id/lauchlinear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/slogan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-<!--    app:layout_constraintStart_toEndOf="@+id/textcurr"-->
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/contact_outline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/emergency_contact"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_outline_phone_24" />
+        <!--    app:layout_constraintStart_toEndOf="@+id/textcurr"-->
+    </LinearLayout>
+
+    <ImageView
         android:id="@+id/slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/varela_round"
-        android:text="SafeShe\nis protecting you!"
-        android:textAlignment="center"
-        android:textSize="40dp"
+        android:src="@drawable/lauchtitle"
         app:layout_constraintBottom_toTopOf="@+id/dog"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lauchlinear" />
 
     <ImageView
         android:id="@+id/dog"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/dog"
-        app:layout_constraintBottom_toTopOf="@+id/track"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="168dp"
+        android:src="@drawable/doggo"
+        app:layout_constraintBottom_toTopOf="@+id/linear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slogan" />
 
-    <Button
-        android:id="@+id/track"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="#000000"
-        android:text="Track Location"
-        app:layout_constraintBottom_toTopOf="@+id/start"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dog" />
 
-    <ToggleButton
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#F8F6F6"
-        android:textColor="@color/black"
-        android:textOff="Start"
-        android:textOn="Protecting"
+        android:layout_margin="25dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/track" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dog">
 
-<!--    <TextView-->
-<!--        android:id="@+id/textcurr"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="162dp"-->
-<!--        android:layout_marginTop="48dp"-->
-<!--        android:layout_marginEnd="137dp"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/emergency_contact"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+        <Button
+            android:id="@+id/track"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:text="Track Location"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/textlast"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/textcurr"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textcurr" />-->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <ToggleButton
+            android:id="@+id/start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F8F6F6"
+            android:textColor="@color/black"
+            android:textOff="Start Protecting"
+            android:textOn="Stop Protecting"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textcurr"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="162dp"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:layout_marginEnd="137dp"-->
+    <!--        android:text="TextView"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/emergency_contact"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textlast"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="TextView"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/textcurr"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textcurr" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
