@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LaunchActivity">
+    android:fillViewport="true">
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <!--    <TextView-->
     <!--        android:id="@+id/slogan"-->
@@ -21,11 +23,11 @@
     <!--        app:layout_constraintLeft_toLeftOf="parent"-->
     <!--        app:layout_constraintRight_toRightOf="parent"-->
     <!--        app:layout_constraintTop_toBottomOf="@+id/lauchlinear" />-->
-
     <LinearLayout
         android:id="@+id/lauchlinear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         app:layout_constraintBottom_toTopOf="@+id/slogan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +52,7 @@
             android:src="@drawable/ic_outline_phone_24" />
         <!--    app:layout_constraintStart_toEndOf="@+id/textcurr"-->
     </LinearLayout>
+
 
     <ImageView
         android:id="@+id/slogan"
@@ -111,6 +114,10 @@
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
+
+
+
+
     <!--    <TextView-->
     <!--        android:id="@+id/textcurr"-->
     <!--        android:layout_width="wrap_content"-->
@@ -133,3 +140,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
