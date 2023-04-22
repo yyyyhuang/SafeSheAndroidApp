@@ -153,6 +153,7 @@ public class ChangeImageActivity extends AppCompatActivity {
                                 }
                             });
                             startActivity(new Intent(ChangeImageActivity.this, ProfileActivity.class));
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

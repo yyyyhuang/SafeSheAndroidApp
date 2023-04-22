@@ -123,6 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ProfileActivity.this, ChangeImageActivity.class));
+                finish();
             }
         });
 
@@ -230,8 +231,6 @@ public class ProfileActivity extends AppCompatActivity {
         dialog.show();
 
     }
-
-
 
 
 }
