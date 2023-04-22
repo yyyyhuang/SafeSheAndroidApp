@@ -141,10 +141,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <service
-            android:name=".ShakeToSendSMS"
-            android:enabled="true"
-            android:foregroundServiceType="location" />
+
     </application>
 
 </manifest>
