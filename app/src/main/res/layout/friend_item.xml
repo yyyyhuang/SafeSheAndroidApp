@@ -28,9 +28,9 @@
                 android:id="@+id/user_img"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_margin="8dp"
+                android:layout_marginLeft="10dp"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_account_circle_24"
+                android:src="@drawable/contact_outline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

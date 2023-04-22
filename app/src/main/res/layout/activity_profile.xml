@@ -1,97 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
+
     <ImageView
         android:id="@+id/profile_picture"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="97dp"
         android:layout_margin="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ava"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ImageView.Circle"
-        android:scaleType="fitXY"/>
+        app:shapeAppearanceOverlay="@style/ImageView.Circle" />
 
-<!--    <com.google.android.material.imageview.ShapeableImageView-->
-<!--        android:id="@+id/profile_picture"-->
-<!--        android:layout_width="150dp"-->
-<!--        android:layout_height="150dp"-->
-<!--        android:layout_margin="20dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:shapeAppearanceOverlay="@style/ImageView.Circle"-->
-<!--        app:srcCompat="@mipmap/ic_launcher_team8" />-->
+    <!--    <com.google.android.material.imageview.ShapeableImageView-->
+    <!--        android:id="@+id/profile_picture"-->
+    <!--        android:layout_width="150dp"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        android:layout_margin="20dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:shapeAppearanceOverlay="@style/ImageView.Circle"-->
+    <!--        app:srcCompat="@mipmap/ic_launcher_team8" />-->
 
     <ImageView
         android:id="@+id/edit_profile_picture_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_width="38dp"
+        android:layout_height="42dp"
         android:background="@drawable/ic_baseline_circle_24"
         android:padding="0dp"
         android:src="@drawable/ic_outline_change_circle_24"
         app:layout_constraintBottom_toBottomOf="@id/profile_picture"
         app:layout_constraintEnd_toEndOf="@id/profile_picture"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_picture"
-        android:textSize="20dp"
-        android:text="USER NAME"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:id="@+id/friend_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Friends"
         android:layout_marginTop="20dp"
+        android:background="@drawable/textbarbl"
+        android:gravity="center"
+        android:text="USER NAME"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/username"
-        app:layout_constraintBottom_toTopOf="@id/friends_recycler_view"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View style="@style/Divider"
+        app:layout_constraintBottom_toTopOf="@+id/friend_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/friend_text"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
+
+    <ImageView
+        android:id="@+id/friend_text"
+        android:layout_width="110dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/txtfriends"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintBottom_toTopOf="@+id/friends_recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="192dp" />
+
+    <!--    <View style="@style/Divider"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/friend_text"-->
+    <!--        android:layout_marginTop="10dp"/>-->
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friends_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="411dp"
+        android:layout_height="513dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/friend_text" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friend_text"
+        tools:layout_editor_absoluteY="219dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFriendFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_input_add"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="5dp"
+        android:clickable="true"
+        app:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.939"
-        app:backgroundTint="#03A9F4"/>
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,11 +7,15 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class NumberActivity extends AppCompatActivity {
     private TextView curnumber;
-    private Button update;
+    private ImageButton update;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private String userKey;
@@ -59,6 +63,10 @@ public class NumberActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                Toast.makeText(NumberActivity.this,""+snapshot,Toast.LENGTH_SHORT).show();
                 curnumber.setText(String.valueOf(snapshot.getValue()));
+                curnumber.setTextColor(Color.WHITE);
+                curnumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+                curnumber.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                curnumber.setGravity(Gravity.CENTER);
             }
 
             @Override

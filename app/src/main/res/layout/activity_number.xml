@@ -6,11 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".NumberActivity">
 
-    <TextView
+    <!--    <TextView-->
+    <!--        android:id="@+id/txt_current"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Current Emergency Contact"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/txt_number"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ImageView
         android:id="@+id/txt_current"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Current Emergency Contact"
+        android:background="@color/black"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:src="@drawable/contacttitle"
         app:layout_constraintBottom_toTopOf="@+id/txt_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,15 +33,18 @@
         android:id="@+id/txt_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/textbarbl"
         app:layout_constraintBottom_toTopOf="@+id/btn_update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_current" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_update"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/updatebutton"
         android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
