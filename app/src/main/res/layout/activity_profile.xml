@@ -45,7 +45,7 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/textbarbl"
         android:gravity="center"
         android:text="USER NAME"
@@ -61,7 +61,7 @@
         android:id="@+id/friend_text"
         android:layout_width="110dp"
         android:layout_height="27dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:src="@drawable/txtfriends"
         android:textSize="20dp"
@@ -77,16 +77,18 @@
     <!--        android:layout_marginTop="10dp"/>-->
 
 
+    <!--        tools:layout_editor_absoluteY="219dp" />-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friends_recycler_view"
-        android:layout_width="411dp"
-        android:layout_height="513dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="5dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/friend_text"
-        tools:layout_editor_absoluteY="219dp" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFriendFAB"
