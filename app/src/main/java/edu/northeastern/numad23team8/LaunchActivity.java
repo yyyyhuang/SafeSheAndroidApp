@@ -112,6 +112,13 @@ public class LaunchActivity extends AppCompatActivity {
 
             }
         });
+        if (ActivityCompat.checkSelfPermission(LaunchActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(LaunchActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(LaunchActivity.this,"Shake to send SOS message",
+                    Toast.LENGTH_SHORT).show();
+        }else {
+            ActivityCompat.requestPermissions(LaunchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS}, 44);
+        }
 
         // set up sensor to detect device shake
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
